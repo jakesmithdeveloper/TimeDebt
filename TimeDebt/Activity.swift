@@ -9,9 +9,9 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-@Observable class Activity {
+@Model
+class Activity {
     var name: String
-    
     var debt: TimeInterval
     
     var debtDisplay: String {
@@ -19,13 +19,13 @@ import SwiftUI
         return formatter.string(from: debt) ?? ""
     }
     
+    func second() {
+        debt = debt.advanced(by: -1.0)
+    }
+    
     init(name: String, debt: TimeInterval) {
         self.name = name
         self.debt = debt
     }
     
-    func second() {
-        debt = debt.advanced(by: -1.0)
-        print(debt)
-    }
 }

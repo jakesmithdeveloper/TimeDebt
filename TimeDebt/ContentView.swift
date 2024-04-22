@@ -6,28 +6,37 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     
-    @State private var timerOn = false
+    @Environment(\.modelContext) var modelContext
+    
+    @Query var activites: [Activity]
+    
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    var a = Activity(name: "iOS programming", debt: 1800)
-    
     var body: some View {
-        VStack {
-            Text(a.debtDisplay)
-                .onReceive(timer) { _ in
-                    if timerOn {
-                        a.second()
-                    }
+        NavigationStack {
+            VStack {
+                ForEach(activites) { activity in
+                    Text(activity.name)
                 }
-            Button("\(timerOn ? "Stop" : "Start")") {
-                timerOn.toggle()
+            }
+            .padding()
+            .toolbar {
+                Button(action: addActivity, label: {
+                    Label("add", systemImage: "plus")
+                })
             }
         }
-        .padding()
     }
+    
+    func addActivity() {
+        let activity = Activity(name: "Hobby 1", debt: 1800)
+        modelContext.insert(activity)
+    }
+    
 }
 
 #Preview {
