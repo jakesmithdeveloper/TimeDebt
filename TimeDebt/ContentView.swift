@@ -8,12 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var timerOn = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    var a = Activity(name: "iOS programming", debt: 1800)
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(a.debtDisplay)
+                .onReceive(timer) { _ in
+                    if timerOn {
+                        a.second()
+                    }
+                }
+            Button("\(timerOn ? "Stop" : "Start")") {
+                timerOn.toggle()
+            }
         }
         .padding()
     }
