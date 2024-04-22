@@ -13,10 +13,16 @@ import SwiftUI
 class Activity {
     var name: String
     var debt: TimeInterval
+    var active: Bool = false
+    
     
     var debtDisplay: String {
         let formatter = DateComponentsFormatter()
         return formatter.string(from: debt) ?? ""
+    }
+    
+    var activeDisplay: String {
+        return active ? "stop" : "start"
     }
     
     func second() {
